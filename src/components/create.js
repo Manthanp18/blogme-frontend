@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-
-import Moment from 'react-moment';
-
+import Moment from 'react-moment'
+import TextareaAutosize from 'react-textarea-autosize'
+import '../index.css'
 
 export default class CreateBlog extends Component {
   constructor (props) {
@@ -19,7 +19,6 @@ export default class CreateBlog extends Component {
       date: new Date()
     }
   }
-
 
   onChangeTitle (e) {
     this.setState({
@@ -42,19 +41,18 @@ export default class CreateBlog extends Component {
   onSubmit (e) {
     e.preventDefault()
 
-    const blog = {
+    const me = {
       title: this.state.title,
-      body: this.state.body,
-      date: this.state.date
+      body: this.state.body
     }
 
-    console.log(blog)
+    console.log(me)
 
     axios
-      .post('http://localhost:5000/api/blog', blog)
+      .post('http://localhost:5000/api/blog/add', me)
       .then(res => console.log(res.data))
 
-    window.location = '/'
+    window.location = '/api/blogs/'
   }
 
   render () {
@@ -72,9 +70,10 @@ export default class CreateBlog extends Component {
               onChange={this.onChangeTitle}
             />
             <label>Body: </label>
-            <input
+            <TextareaAutosize
               type='text'
               required
+              minRows={5}
               className='form-control'
               value={this.state.body}
               onChange={this.onChangeBody}
